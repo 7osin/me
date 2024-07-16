@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>عرض الرسائل</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            margin: auto;
+        }
+        .box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .message {
+            background-color: #e9e9e9;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid #ff0000;
+        }
+        .message h3 {
+            margin: 0;
+            color: #333;
+        }
+        .message p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .message img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>الرسائل</h2>
+        <div id="messages"></div>
+    </div>
+    <script type="module">
+        // استيراد وظائف Firebase اللازمة
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+
+        // تكوين Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCw2GFv77AnwCrhj1m6FIKLJZrsYMfMQTY",
+            authDomain: "tsst-cb1fa.firebaseapp.com",
+            projectId: "tsst-cb1fa",
+            storageBucket: "tsst-cb1fa.appspot.com",
+            messagingSenderId: "741430926526",
+            appId: "1:741430926526:web:624fa97fe6671d2bcc52ef"
+        };
+
+        // تهيئة Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // مرجع إلى موقع البيانات في قاعدة البيانات
+        const messagesRef = ref(db, 'user');
+
+        // استرجاع البيانات وعرضها
+        onValue(messagesRef, (snapshot) => {
+            const messages = snapshot.val();
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = ''; // تنظيف المحتوى السابق
+
+            // عرض كل رسالة
+            for (const key in messages) {
+                if (messages.hasOwnProperty(key)) {
+                    const message = messages[key];
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.innerHTML = `<h3>   ${message['الاسم']} : الاسم  </h3>  <p>${message['الرسالة']}</p>`;
+                    
+                    // إضافة صورة عشوائية من Unsplash
+                    const img = document.createElement('img');
+                    img.src = 'https://cdn.discordapp.com/attachments/1191338107757416498/1233712323299115020/Blue_And_White_Modern_House_Cleaning_Service_Facebook_Cover.gif?ex=6696e6e3&is=66959563&hm=9199edc7911015e0dcd53d69372d1346e643146e87e806686beb55d0c41dc13a&'   ; // رابط صورة عشوائية من Unsplash
+                    img.alt = 'صورة';
+                    img.className = 'صورة';
+                    messageDiv.appendChild(img);
+                    
+                    messagesDiv.appendChild(messageDiv);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Firebase_form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="box">
+        <div class="form">
+            <h2>Login Form</h2>
+            <form>
+                <div class="inputbox">
+                    <input type="text" id="username">
+                    <span>الاسم</span>
+                </div>
+                <div class="inputbox">
+                    <input type="email" id="text">
+                    <span>الرسالة</span>
+                </div>
+
+                <input type="submit" value="submit" class="sub" id="submit">
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCw2GFv77AnwCrhj1m6FIKLJZrsYMfMQTY",
+            authDomain: "tsst-cb1fa.firebaseapp.com",
+            projectId: "tsst-cb1fa",
+            storageBucket: "tsst-cb1fa.appspot.com",
+            messagingSenderId: "741430926526",
+            appId: "1:741430926526:web:624fa97fe6671d2bcc52ef"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        document.getElementById("submit").addEventListener('click', function(e){
+            e.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const text = document.getElementById("text").value;
+
+
+            // Upload image to Firebase Storage (optional step)
+            // Here you would typically upload the image to Firebase Storage and get the download URL
+            // For simplicity, I'm assuming you have the URL directly
+
+            // Example URL (replace with actual upload logic)
+            const imageUrl = "https://example.com/image.jpg";
+
+            // Save data to Firebase Realtime Database
+            set(ref(db, 'user/' + username), {
+                الاسم: username,
+                الرسالة: text,
+                صورة: imageUrl // Replace with the actual image URL
+            });
+
+            alert("تم الارسال بنجاح");
+        });
+    </script>
+</body>
+</html>
